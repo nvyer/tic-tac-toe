@@ -1,0 +1,315 @@
+body {
+    margin: 0px;
+    font-family: "Raleway", sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100vw;
+    height: 80px;
+    background-color: black;
+}
+
+.link {
+    width: 40px;
+    height: 40px;
+    border-radius: 48%;
+    margin-left: 20px;
+    border: 2px solid white;
+}
+
+.link-to-menu :hover {
+    border-radius: 48%;
+    margin-left: -1px;
+    margin-top: -1px;
+    background-size: 100% 400%;
+    border: 1px solid white;
+    background-image: linear-gradient(to bottom, #9fc 0%, #9cf 25%, #f9c 50%, #fc9 75%, #9fc 100%);
+    /* animation: 3s linear 1s slidein; */
+}
+
+.mute {
+    margin-right: 20px;
+}
+
+.icon {
+    fill: #7f7f7f;
+    cursor: pointer;
+}
+
+.icon :hover {
+    fill: #ffffff;
+}
+
+.main {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    height: 80%;
+}
+
+.game-container {
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: black;
+    width: 65%;
+}
+
+.side-container {
+    background-color: black;
+    width: 10%;
+    height: 602px;
+    border-bottom: 13px solid black;
+}
+
+.grey {
+    background-color: #333;
+    width: 15%
+}
+
+.game-display {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 175px;
+    background-color: black;
+    width: 428px;
+    height: 428px;
+}
+
+.square {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: black;
+    width: 140px;
+    height: 140px;
+}
+
+.top {
+    border-top: 2px solid white;
+}
+
+.bottom {
+    border-bottom: 2px solid white;
+}
+
+.left {
+    border-left: 2px solid white;
+}
+
+.right {
+    border-right: 2px solid white;
+    ;
+}
+
+.players {
+    display: flex;
+    justify-content: center;
+    background-color: #000000;
+    width: 441px;
+    margin-left: 170px;
+    margin-top: 36px;
+    height: 100px;
+}
+
+.player1, .player2 {
+    margin-right: 22px;
+}
+
+.player2-text, .computer {
+    display: block;
+    text-align: center;
+    color: white;
+    font-size: 23px;
+}
+
+.player1-text, .computer {
+    cursor: pointer;
+    font-size: 23px;
+    color: white;
+}
+
+.player2-text {
+    display: none;
+}
+
+.ties {
+    border-radius: 2%;
+    margin-top: 9px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    color: white;
+    width: 31px;
+    font-size: 36px;
+    margin-right: 20px;
+}
+
+
+.x-score, .o-score {
+    cursor: pointer;
+    display: block;
+    width: 30px;
+    height: 40px;
+    text-align: center;
+    width: 120px;
+    font-size: 36px;
+    color: white;
+    margin-top: 10px;
+}
+
+.swap {
+    cursor: pointer;
+    margin-left: 20px;
+    margin-top: 18px;
+}
+
+.p1, .p2 {
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+    color: grey;
+    margin-top: 3px;
+}
+
+.p2 {
+    display: none;
+}
+
+.p1:hover, .p2:hover {
+    color: white;
+}
+
+.one-player-icon, .two-player-icon {
+    fill: grey;
+}
+
+.one-player-icon:hover, .two-player-icon:hover {
+    fill: white;
+}
+
+.two-player-icon {
+    display: none;
+}
+
+.x-icon::before {
+    left: 67.5px;
+    top: 16px;
+    width: 15px;
+    height: 118px;
+    position: absolute;
+    content: "";
+    display: block;
+    background-color: #fff;
+    transform: rotate(45deg);
+    border-radius: 3px;
+}
+
+.x-icon::after {
+    left: 67.5px;
+    top: 16px;
+    width: 15px;
+    height: 118px;
+    position: absolute;
+    content: "";
+    display: block;
+    background-color: #fff;
+    transform: rotate(-45deg);
+    border-radius: 3px;
+}
+
+.o-icon::before {
+    left: 23px;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    content: "";
+    display: block;
+    background-color: #fff;
+    border-radius: 50%;
+    top: 23px;
+}
+
+.o-icon::after {
+    left: 36px;
+    width: 74px;
+    height: 74px;
+    position: absolute;
+    content: "";
+    display: block;
+    background-color: #0a0a0a;
+    border-radius: 50%;
+    top: 36px;
+}
+
+@media screen and (max-width: 1130px) {
+    .game-display, .players {
+        margin-left: 66px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .game-display, .players {
+        margin-left: 37px;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .game-display {
+        margin-left: 14px;
+    }
+    .players {
+        margin-left: 0px;
+    }
+    .side-container {
+        width: 10%;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .game-display, .players {
+        margin-left: 110px
+    }
+    .players {
+        padding-bottom: 42px;
+    }
+    .side-container {
+        display: none;
+    }
+    .game-container {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.element-icon {
+    width: 30%;
+    height: 140px;
+    color: white;
+    font-size: 120px;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.element-icon:nth-child(1),
+.element-icon:nth-child(4),
+.element-icon:nth-child(7),
+.element-icon:nth-child(2),
+.element-icon:nth-child(5),
+.element-icon:nth-child(8) {
+    border-right: 1px solid white;
+}
+
+.element-icon:nth-child(1),
+.element-icon:nth-child(2),
+.element-icon:nth-child(3),
+.element-icon:nth-child(4),
+.element-icon:nth-child(5),
+.element-icon:nth-child(6) {
+    border-bottom: 1px solid white;
+}
