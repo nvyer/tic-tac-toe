@@ -20,6 +20,18 @@ class Game {
         this.isPlaying = false;
         this.board = undefined;
         this.winningCombination = [];
+        this.mutted = false;
+
+        const muteBtn = document.querySelector('.mute-icon');
+
+        muteBtn.addEventListener('click', () => {
+            muteBtn.classList.toggle('cutted-icon');
+            if (muteBtn.classList.contains('cutted-icon')) {
+                this.mutted = true;
+            } else {
+                this.mutted = false;
+            }
+        });
 
         document.getElementsByClassName('players')[0].addEventListener('click', this.toggleMode);
     }
@@ -37,9 +49,9 @@ class Game {
         for (let i = 0; i < arr.length; i++) {
             for (let j = 0; j < arr.length; j++) {
                 const el = document.createElement('div');
-                el.className = 'element-icon'
+                el.className = 'element-icon';
                 el.innerText = arr[i][j];
-                el.addEventListener('click', () => this.handleClick(i, j), { once: true });
+                el.addEventListener('click', () => this.handleClick(i, j));
                 document.getElementById('game-display').append(el);
             }
         }
@@ -47,15 +59,23 @@ class Game {
 
     handleClick = (row, col) => {
         if (!this.isPlaying) return;
-        this.board[row][col] = this.turn;
-        this.renderMatrix(this.board);
-        this.toggleTurn();
-        if (this.computer_mode) {
-            const { i, j } = this.findNextMove();            
-            this.board[i][j] = this.turn;
+        if (this.board[row][col] === '') {
+            let audio = new Audio('./audio/mixkit-arcade-game-jump-coin-216.wav');
+            this.board[row][col] = this.turn;
+            if (this.mutted === false) {
+                audio.play();
+            };
             this.renderMatrix(this.board);
             this.toggleTurn();
         }
+
+        // if (this.computer_mode) {
+        //     const { i, j } = this.findNextMove();
+        //     // this.findNextMove();
+        //     this.board[i][j] = this.turn;
+        //     this.renderMatrix(this.board);
+        //     this.toggleTurn();
+        // }
 
         const winner = this.checkWinner(this.board);
         if (winner) {
@@ -63,59 +83,59 @@ class Game {
         }
     }
 
-    findNextMove = () => {
-        let bestScore = -Infinity;
-        let move = {};
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
-                if (this.board[i][j] == '') {
-                    this.board[i][j] = this.player_two;
-                    let score = this.minimax(this.board, 0, false);
-                    this.board[i][j] = '';
-                    if (score > bestScore) {
-                        bestScore = score;
-                        move = { i, j };
-                    }
-                }
-            }
-        }
-        return move;
-    }
+    // findNextMove = () => {
+    //     let bestScore = -Infinity;
+    //     let move = {};
+    //     for (let i = 0; i < 3; i++) {
+    //         for (let j = 0; j < 3; j++) {
+    //             if (this.board[i][j] == '') {
+    //                 this.board[i][j] = this.player_two;
+    //                 let score = this.minimax(this.board, 0, false);
+    //                 this.board[i][j] = '';
+    //                 if (score > bestScore) {
+    //                     bestScore = score;
+    //                     move = { i, j };
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return move;
+    // }
 
-    minimax = (board, depth, isMaximizing) => {
-        let result = this.checkWinner(board);
-        if (result) {
-            return scores[result];
-        }
+    // minimax = (board, depth, isMaximizing) => {
+    //     let result = this.checkWinner(board);
+    //     if (result) {
+    //         return scores[result];
+    //     }
 
-        if (isMaximizing) {
-            let bestScore = -Infinity;
-            for (let i = 0; i < 3; i++) {
-                for (let j = 0; j < 3; j++) {
-                    if (board[i][j] == '') {
-                        board[i][j] = this.player_two;
-                        let score = this.minimax(board, depth + 1, false);
-                        board[i][j] = '';
-                        bestScore = Math.max(score, bestScore);
-                    }
-                }
-            }
-            return bestScore;
-        } else {
-            let bestScore = Infinity;
-            for (let i = 0; i < 3; i++) {
-                for (let j = 0; j < 3; j++) {
-                    if (board[i][j] == '') {
-                        board[i][j] = this.player_one;
-                        let score = this.minimax(board, depth + 1, true);
-                        board[i][j] = '';
-                        bestScore = Math.min(score, bestScore);
-                    }
-                }
-            }
-            return bestScore;
-        }
-    }
+    //     if (isMaximizing) {
+    //         let bestScore = -Infinity;
+    //         for (let i = 0; i < 3; i++) {
+    //             for (let j = 0; j < 3; j++) {
+    //                 if (board[i][j] == '') {
+    //                     board[i][j] = this.player_two;
+    //                     let score = this.minimax(board, depth + 1, false);
+    //                     board[i][j] = '';
+    //                     bestScore = Math.max(score, bestScore);
+    //                 }
+    //             }
+    //         }
+    //         return bestScore;
+    //     } else {
+    //         let bestScore = Infinity;
+    //         for (let i = 0; i < 3; i++) {
+    //             for (let j = 0; j < 3; j++) {
+    //                 if (board[i][j] == '') {
+    //                     board[i][j] = this.player_one;
+    //                     let score = this.minimax(board, depth + 1, true);
+    //                     board[i][j] = '';
+    //                     bestScore = Math.min(score, bestScore);
+    //                 }
+    //             }
+    //         }
+    //         return bestScore;
+    //     }
+    // }
 
     checkWinner = (board) => {
         let winner = null;
@@ -169,7 +189,7 @@ class Game {
         }
 
         this.renderScores();
-        this.animation();
+        this.animation(this.winningCombination);
     }
 
     renderScores = () => {
@@ -182,15 +202,24 @@ class Game {
         tie.innerText = this.scores.tie;
     }
 
-    animation = () => {
+    animation = (winningCombination) => {
+        // let flattened = winningCombination.map((comb) => comb.split(',')).flat();
+        // let count;
+
         // TODO: write animation
-        setTimeout(() => {
+            setTimeout(() => {
+            let winningAudio = new Audio('./audio/mixkit-male-voice-cheer-2010.wav');
+            if (this.mutted === false) {
+                winningAudio.play();
+            }
             this.start();
             this.winningCombination = [];
-        }, 3000);
+        }, 1000);
     }
 
 }
 
 const game = new Game();
 game.start();
+
+
