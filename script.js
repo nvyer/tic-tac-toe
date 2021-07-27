@@ -4,7 +4,7 @@ const scores = {
     x: 10,
     o: -10,
     tie: 0,
-}
+};
 
 class Game {
     constructor() {
@@ -36,6 +36,7 @@ class Game {
         this.mutted = false;
 
         const muteBtn = document.querySelector('.mute-icon');
+
 
         muteBtn.addEventListener('click', () => {
             muteBtn.classList.toggle('cutted-icon');
