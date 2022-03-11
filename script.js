@@ -7,7 +7,7 @@ const scores = {
 };
 
 class Game {
-    constructor() {
+    constructor () {
         this.scores = {
             player_one: 0,
             player_two: 0,
@@ -54,7 +54,7 @@ class Game {
         this.isPlaying = true;
         this.board = new Array(3).fill([]).map(_ => new Array(3).fill(''));
         this.renderMatrix(this.board);
-    }
+    };
 
     renderMatrix = (arr) => {
         document.getElementById('game-display').innerText = '';
@@ -67,7 +67,7 @@ class Game {
                 document.getElementById('game-display').append(el);
             }
         }
-    }
+    };
 
 
     handleBoardClick = (row, col) => {
@@ -83,8 +83,8 @@ class Game {
         }
 
         if (this.computer_mode) {
-            const { i, j } = this.findNextMove();
-            this.findNextMove();
+            const { i, j } = this.findBesMove();
+            // this.findBesMove();
             if (i === undefined && j === undefined) {
                 this.checkWinner(this.board);
             } else {
@@ -96,15 +96,15 @@ class Game {
 
         const winner = this.checkWinner(this.board);
         if (winner) {
-            this.end(winner)
+            this.end(winner);
         }
-    }
+    };
 
     swapGameMode = () => {
         let swapMode = document.querySelector('.player-logo');
 
         swapMode.addEventListener('click', toggleMode());
-    }
+    };
 
     toggleMode = () => {
         let onePlayerLogo = document.querySelector('.one-player-icon');
@@ -123,10 +123,10 @@ class Game {
 
         if (onePlayerLogo.style.display !== 'none') {
             onePlayerLogo.style.display = 'none';
-            twoPlayerLogo.style.display = 'inherit'
+            twoPlayerLogo.style.display = 'inherit';
         } else {
             onePlayerLogo.style.display = 'inherit';
-            twoPlayerLogo.style.display = 'none'
+            twoPlayerLogo.style.display = 'none';
         }
 
         this.computer_mode = !this.computer_mode;
@@ -135,11 +135,11 @@ class Game {
 
     toggleTurn = () => {
         this.turn = this.turn === this.player_one ? this.player_two : this.player_one;
-    }
+    };
 
 
-    findNextMove = () => {
-        let bestScore = -Infinity;
+    findBesMove = () => {
+        let bestScore = -1;
         let move = {};
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
@@ -148,6 +148,7 @@ class Game {
                     let score = this.minimax(this.board, 0, false);
                     this.board[i][j] = '';
                     if (score > bestScore) {
+                        console.log(i, j);
                         bestScore = score;
                         move = { i, j };
                     }
@@ -155,17 +156,7 @@ class Game {
             }
         }
         return move;
-    }
-
-    isMovesLeft = (board) => {
-        for (let i = 0; i < 3; i++)
-            for (let j = 0; j < 3; j++)
-                if (board[i][j] == '') {
-                    return true;
-                }
-
-        return false;
-    }
+    };
 
     minimax = (board, depth, isMaximizing) => {
         let result = this.checkWinner(this.board);
@@ -173,24 +164,11 @@ class Game {
             return scores[result];
         }
 
-        if (isMaximizing) {
-            let bestScore = -Infinity;
-            for (let i = 0; i < 3; i++) {
-                for (let j = 0; j < 3; j++) {
-                    if (board[i][j] == '') {
-                        board[i][j] = this.player_two;
-                        let score = this.minimax(this.board, depth + 1, false);
-                        bestScore = Math.max(bestScore, score);
-                        board[i][j] = '';
-                    }
-                }
-            }
-            return bestScore;
-        } else {
+        if (!isMaximizing) {
             let bestScore = Infinity;
             for (let i = 0; i < 3; i++) {
                 for (let j = 0; j < 3; j++) {
-                    if (board[i][j] == '') {
+                    if (board[i][j] === '') {
                         board[i][j] = this.player_one;
                         let score = this.minimax(this.board, depth + 1, true);
                         bestScore = Math.min(bestScore, score);
@@ -199,9 +177,24 @@ class Game {
                 }
             }
             return bestScore;
-        }
-    }
 
+        } else {
+            let bestScore = -Infinity;
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (board[i][j] === '') {
+                        board[i][j] = this.player_two;
+                        let score = this.minimax(this.board, depth + 1, false);
+                        bestScore = Math.max(bestScore, score);
+                        board[i][j] = '';
+                    }
+                }
+            }
+            return bestScore;
+        }
+    };
+
+    // check winner
     checkWinner = (board) => {
         let winner = null;
 
@@ -231,7 +224,7 @@ class Game {
         const isTie = !board.flat().includes('') && 'tie';
 
         return winner || isTie;
-    }
+    };
 
 
     end = (winner) => {
@@ -251,7 +244,7 @@ class Game {
 
         this.renderScores();
         this.animation(this.winningCombination);
-    }
+    };
 
     renderScores = () => {
         const xScore = document.querySelector('.x-score');
@@ -261,7 +254,7 @@ class Game {
         xScore.innerText = this.scores.player_one;
         oScore.innerText = this.scores.player_two;
         tie.innerText = this.scores.tie;
-    }
+    };
 
     animation = () => {
         setTimeout(() => {
@@ -272,7 +265,7 @@ class Game {
             this.start();
             this.winningCombination = [];
         }, 1000);
-    }
+    };
 
 }
 
