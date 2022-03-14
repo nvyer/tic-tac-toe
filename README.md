@@ -9,4 +9,4 @@ Tic-Tac-Toe game available with 1 and 2 players.Website contains animation and s
 - CSS
 - JS
 
-[Click here](https://nvyer.github.io/tic-tac-toe/) to play.
+[Click here]() to play.
